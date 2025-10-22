@@ -20,7 +20,8 @@ class UserValidation:
     def validate_phone_number(phone: str) -> bool:
         if not phone or not isinstance(phone, str):
             return False
-        pattern = r"^(?:20)?(10|11|12|15)\d{8}$"
+        # ✅ Fixed pattern: accepts 010/011/012/015 with or without 20 prefix
+        pattern = r"^(?:01[0125]\d{8}|201[0125]\d{8})$"
         return re.match(pattern, phone) is not None
 
     @staticmethod
@@ -46,7 +47,6 @@ class UserValidation:
             return False
 
         try:
-            # approximate date validation
             year_full = (1900 if century == '2' else 2000) + year
             datetime(year_full, month, day)
         except ValueError:
